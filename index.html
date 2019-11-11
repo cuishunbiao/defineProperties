@@ -3,8 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <title>双向绑定</title>
+    <style>
+        .define{text-align:center;}
+        .define p{ height:30px; line-height:30px;}
+    </style>
 </head>
 <body>
-
+<div id="define" class="define">
+    <input type="text" v-model="name" placeholder="输入一些文字">
+    <p>{{name}}</p>
+    <button>点击</button>
+</div>
+<script src="./defineProperties.js"></script>
+<script>
+    defineHtmlFn("#define");
+</script>
 </body>
 </html>
