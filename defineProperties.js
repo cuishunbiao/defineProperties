@@ -1,56 +1,53 @@
 var obj = {
-    name: '',
-    age: ''
+  name: '',
+  age: ''
 };
 
 //执行监听
 var defineFn = function (obj, item, value) {
-    Object.defineProperty(obj, item, {
-        get: function () {
-            return value;
-        },
-        set: function (newVal) {
-            value = newVal;
-        }
-    });
+  Object.defineProperty(obj, item, {
+    get: function () {
+      return value;
+    },
+    set: function (newVal) {
+      value = newVal;
+    }
+  });
 }
 
 //处理所有的监听
 var observe = function (data) {
-    Object.keys(data).forEach(function (item) {
-        /*
-        * data 当前的对象
-        * item 当前 key 值
-        * data[item] 当前对应 key 的值
-        * */
-        defineFn(data, item, data[item]);
-    })
+  Object.keys(data).forEach(function (item) {
+    /*
+    * data 当前的对象
+    * item 当前 key 值
+    * data[item] 当前对应 key 的值
+    * */
+    defineFn(data, item, data[item]);
+  })
 }
 
 observe(obj);
 
 var defineHtmlFn = function (roots) {
-    var root = document.querySelector(roots);
-    var nodes = root.children;
-    for (var i = 0; i < nodes.length; i++) {
-        var node = nodes[i];
-        if( node.children.length ){
-            defineHtmlFn(node);
-        }
-        //没有子级
-        if( node.hasAttribute('v-model') ){
-            node.addEventListener('input',(function (e) {
-                console.log(e.value);
-            }))
-        }
-
-
+  var root = document.querySelector(roots);
+  var nodes = root.children;
+  for (var i = 0; i < nodes.length; i++) {
+    var node = nodes[i];
+    if (node.children.length) {
+      defineHtmlFn(node);
     }
+    //没有子级
+    if (node.hasAttribute('v-model')) {
+      node.addEventListener('input', (function (e) {
+        console.log(e.value);
+      }))
+    }
+  }
 }
 
 /*
-* 先要搞清楚 defineFn 这个函数
-* 它是为了 遍历所有的 key 值，执行监听
+* 先要搞清楚 defineFn 这个函数「重新设置了对象下的所有的 key 值的属性」，执行监听
 * 那传入的三个参数是什么意思？
 * obj  这个肯定是个对象，当前的对象
 * item  这个就是当前的 key 值
